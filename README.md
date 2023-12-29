@@ -3,4 +3,4 @@ An application that allows you to translate text in Russian and numbers into Mor
 # Stack
 HTML, CSS, JS (Web Audio API for code soudtrack)
 # Link to the website
-https://vovashkurletov.github.io/azbuka-morze/АзбМорзе/
+[Morse-Code-Translator](https://vovashkurletov.github.io/Morse-Code-Translator/АзбМорзе/)
