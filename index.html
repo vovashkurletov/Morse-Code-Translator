@@ -12,16 +12,22 @@
 <h1>Переводчик азбуки Морзе</h1>
 <div class="go">
 
-<div class="bi bio">
-<textarea value="sos" id="textInputId"  placeholder="введите текст"></textarea>
+<div class="elem_form elem_form-input">
+<textarea id="textInputId"  placeholder="введите текст"></textarea>
 </div>
 
-<div class="bi bit">
-<img src="images/стрелка.png" value="ПЕРЕВОД" id="perev">
+<div class="medium">
+  <div>
+    <input class="polzunok" id="frequencyRange" type="range" min="500" max="1500" step="1" value="800">
+    <input class="polzunok" type="durationFactor" min="0" max="100" step="1" value="20"><!--don't ready yet-->
+  </div>
+  <div class="elem_form elem_form-button">
+    <img src="images/стрелка.png" alt="" id="translateButton">
+  </div>
 </div>
 
-<div class="bi bith">
-<textarea value="sos" id="textOutputId" readonly></textarea>
+<div class="elem_form elem_form-input">
+<textarea id="textOutputId" readonly></textarea>
 </div>
 
 </div>

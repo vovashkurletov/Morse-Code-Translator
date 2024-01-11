@@ -90,7 +90,7 @@ let dict = {		//0-тире 1-точка
 
 }
 
-let context = new (window.AudioContext || window.webkitAudioContext)();
+
 class Sound {
   
 	constructor(context) {
@@ -133,13 +133,6 @@ class Sound {
    
   }
 
-  function playSound(note,vp,tt) {
-	let sound = new Sound(context);
-	let value = note;
-	var now = context.currentTime;
-	sound.play(value,vp);
-	sound.stop(vp,tt);
-  }
 
 //************************************************************************
   textInputId.oninput = function() { //событие  - при каждом вводе в input перевод его в код Морзе и вывод в output 
@@ -171,12 +164,13 @@ class Sound {
 
 // https://alphabetonline.ru/morse.html
   
-  document.getElementById('perev').addEventListener('click', () => {
+  document.getElementById('translateButton').addEventListener('click', () => { //событие  - при нажатии на стрелку генерируется звук 
 	let mes = document.getElementById('textInputId').value;
 	let vp=0;
 	let tt='.';
 	let mmes=mes.split(' ');
 	mes = mes.replaceAll(' ','');
+	let freqValue = frequencyRange.value;
 	for(k in  mmes){
 	for(i in mmes[k]){ //sos z
 	//console.log(mes[i]);               //mes[i]???
@@ -187,7 +181,7 @@ class Sound {
 		
 
 			tt=dict[mmes[k][i]][j];
-		playSound(800.00,vp,tt);
+		playSound(freqValue,vp,tt);
 			if (dict[mmes[k][i]][j]==to){
 				vp+=200;		//дается запас на паузу
 			}
@@ -208,7 +202,17 @@ class Sound {
     //playSound(note,400);
     //setTimeout(900);
 	//console.log(context.currentTime);
-  })
+  });
+
+  let context = new (window.AudioContext || window.webkitAudioContext)();
+  function playSound(note,vp,tt) {
+	let sound = new Sound(context);
+	let value = note;
+	var now = context.currentTime;
+	sound.play(value,vp);
+	sound.stop(vp,tt);
+  }
+
   
 
 

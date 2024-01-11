@@ -1,63 +1,44 @@
-	html {
+*{	margin:0;
+  padding:0;
+  border:0;}
+body{
 
-background-image: url(https://catherineasquithgallery.com/uploads/posts/2021-03/1614723909_150-p-foni-dlya-literaturi-182.jpg);
-
+/*background-image: url(https://catherineasquithgallery.com/uploads/posts/2021-03/1614723909_150-p-foni-dlya-literaturi-182.jpg);
+*/
+background-image: radial-gradient(#d3aa7e,#ba7e4f);
 background-repeat: no-repeat;
-
 background-position: center center;
-
 background-attachment: fixed;
-
--webkit-background-size: cover;
-
--moz-background-size: cover;
-
--o-background-size: cover;
-
-background-size: cover;
-
 }
 
 textarea{
  resize: none; 
- wrap: off;
- padding: 2%;
+ margin: 2%;
   background-color: #fccb9a;
   border: 3px solid #631010;
   border-radius: 30px;
-
-
   text-align: center;
   font-family: 'Arial';
   font-size: 40px;
   color: #000000;
-}
-#teext{
-transform: rotate(-7deg);
-
+  padding: 2%;
+  max-width: 450px;
 }
 
-#vt{
-transform: rotate(7deg);
-
-}
-#perev{
-	position: relative;
-	height: 30vh;
-	size: cover;
-  border-radius: 7px;
-
+#translateButton{
+  margin: 2%;
+  max-width: 200px;
 }
 
 h1{
-word-break: break-all;
+word-wrap: break-word;
 font-family: Courier, sans-serif; 
 font-style: normal;
 font-weight: 600;
-  font-size: 56pt;
+  font-size: 10vh;
   color: black;
-  margin:5%;
   text-align: center;
+  margin: 5%;
 }
 h2{
     font-family: Verdana;
@@ -67,50 +48,37 @@ h2{
   text-align: center;
 }
 .go{
-margin: 0 20px;
-position: relative;
-height: 100%;
-width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.medium {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+.polzunok{
+  display: block;
+  margin: 20px 0;;
 }
 
 @media (min-width: 100px) and (max-width: 1000px) { 
-#perev{
-height: 10vh;}
-textarea{
-height: 20vh;
-width: 60vw;
-}
-.bi {
-	margin: 0 15%;
-}
-#teext{
-transform: rotate(0deg);
-}
-#perev{
-	transform: rotate(0deg);
-	margin: 5% 0;
-	left: calc(45% - 43px);
-}
-#vt{
-transform: rotate(-0deg);
-
-}
+  .go{
+    flex-direction: column;
+  }
+  textarea{
+    height: 50vh;
+    margin: 2% 0;
+  }
 }
 
-
-@media (min-width: 1000px) and (max-width: 6200px) { 
-#perev{
-height: 30vh;}
-textarea{
-height: 50vh;
+@media (min-width: 550px) and (max-width: 1000px) { 
+  textarea{
+    width: 80vw;
+  }
 }
-.bi {
-	position: absolute;
-}
-.bit{
-	left: 37%;
-}
-.bith{
-	left: 66%;
-}
+@media (min-width: 1000px){ 
+  textarea{
+    height: 60vh;
+  }
 }
