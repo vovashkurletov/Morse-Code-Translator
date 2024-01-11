@@ -209,6 +209,7 @@ class Sound {
 	let sound = new Sound(context);
 	let value = note;
 	var now = context.currentTime;
+	console.log(now);
 	sound.play(value,vp);
 	sound.stop(vp,tt);
   }
