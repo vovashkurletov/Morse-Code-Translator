@@ -2,9 +2,6 @@
   padding:0;
   border:0;}
 body{
-
-/*background-image: url(https://catherineasquithgallery.com/uploads/posts/2021-03/1614723909_150-p-foni-dlya-literaturi-182.jpg);
-*/
 background-image: radial-gradient(#d3aa7e,#ba7e4f);
 background-repeat: no-repeat;
 background-position: center center;
@@ -61,8 +58,12 @@ h2{
   display: block;
   margin: 20px 0;;
 }
+.label_polz{
+  font-family: 'Arial';
+  font-size: 25px;
+}
 
-@media (min-width: 100px) and (max-width: 1000px) { 
+@media (min-width: 100px) and (max-width: 1200px) { 
   .go{
     flex-direction: column;
   }
@@ -70,15 +71,19 @@ h2{
     height: 50vh;
     margin: 2% 0;
   }
+  .label_polz{
+    font-size: 30px;
+  }
 }
 
-@media (min-width: 550px) and (max-width: 1000px) { 
+@media (min-width: 550px) and (max-width: 1200px) { 
   textarea{
-    width: 80vw;
+    width: 100vw;
   }
 }
-@media (min-width: 1000px){ 
-  textarea{
-    height: 60vh;
+
+  @media (min-width: 1200px){ 
+    textarea{
+      height: 60vh;
+    }
   }
-}

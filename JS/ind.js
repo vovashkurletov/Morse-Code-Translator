@@ -1,3 +1,4 @@
+var dataDAD=[]; // next DAD - "dots and dashes"
 
 let to='.';
 let ti='-';
@@ -92,69 +93,60 @@ let dict = {		//0-тире 1-точка
 
 
 class Sound {
-  
 	constructor(context) {
 	  this.context = context;
 	}
-	
 	setup() {
 	  this.oscillator = this.context.createOscillator();
 	  this.gainNode = this.context.createGain();
-  
 	  this.oscillator.connect(this.gainNode);
 	  this.gainNode.connect(this.context.destination);
+
 	  this.oscillator.type = 'sine';
 	}
-  
-	play(value, vp) {
+	play(freq, curTime) {
 	  this.setup();
   
-	  this.oscillator.frequency.value = value;
+	  this.oscillator.frequency.value = freq;
 	  this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
 	  this.gainNode.gain.linearRampToValueAtTime(1, this.context.currentTime + 0.01);
-			  
-	  this.oscillator.start(this.context.currentTime+vp/1000);
-	  //setTimeout(1000);
-	  //this.stop(this.context.currentTime);
+	  //разные настройки 
+
+	  this.oscillator.start(this.context.currentTime+curTime/1000);
 	}
-	
-	stop(vp,tt) {
-	  //this.gainNode.gain.exponentialRampToValueAtTime(0.001, this.context.currentTime + 1);
-	  let dl=0;
-	  if (tt=='.'){
-	  dl = vp/1000+0.1;
+	stop(durCoef,curTime,dotOrDash) {
+	  let duration=0;
+	  if (dotOrDash=='.'){
+		duration = curTime/1000+durCoef/1000*1;//в этом API время в сек, в vanilla JS - мс 
 	  }
 	  else{
-	  dl = vp/1000+0.3;
+		duration = curTime/1000+durCoef/1000*3;
 	  }
-	  this.oscillator.stop(this.context.currentTime + dl);
-	  console.log('начало:',vp,' конец',dl);
+	  this.oscillator.stop(this.context.currentTime + duration);//тек. время + длительность зучания
+	  console.log('начало:',curTime,'; конец: ',duration);
 	}
-   
   }
 
 
 //************************************************************************
-  textInputId.oninput = function() { //событие  - при каждом вводе в input перевод его в код Морзе и вывод в output 
+  textInputId.oninput = function() { //событие  - при каждом вводе в input перевод его в код Морзе и вывод в output. А также - добавление в глобальный массив текста кода Морзе вида [[д],[a]],[[н],[е],[т]],[]  
     var textOutput='';
 	let textInput = textInputId.value.toLowerCase();
-	let vp=0;
-	let tt='.';
+	let curChar='';
 	let arrOfWord=textInput.split(' ');
+	dataDAD=[];
 	textInput = textInput.replaceAll(' ','');
 	for(k in  arrOfWord){	// Hello,    Vasya
+		dataDAD[k]=[];
 		for(i in arrOfWord[k]){ // H e l l o , V a s y a
-	//console.log(mes[i]);              
-	//console.log(dict[mmes[k][i]]);  
-			for (j in dict[arrOfWord[k][i]]){  // j - тире или точка каждой буквы слова в соотвествии со словарем
-			tt=dict[arrOfWord[k][i]][j];  // точка/тире
-			textOutput+=tt;
-			}
+			curChar=dict[arrOfWord[k][i]].join('');  // curChar - буква в коде Морзе
+			textOutput+=curChar;//уходит в output
+			dataDAD[k][i]=curChar;//добавляем в глобальный массив
 		//пробелы между буквами
 		textOutput+='  ';
 		}
-	textOutput+='  /  ';
 	//разделение между словами
+	textOutput+='  /  ';
 	}
 	textOutputId.value = textOutput;
   };
@@ -162,56 +154,52 @@ class Sound {
 
 
 
-// https://alphabetonline.ru/morse.html
+/* https://alphabetonline.ru/morse.html гласит:
+
+Особенности кода Морзе:
+
+	- для кодирования используются два звуковых сигнала: длинный (тире) и короткий (точка);
+	- за единицу времени принимается длительность короткого сигнала (одной точки);
+	- длительность тире равно длительности трём точкам;
+	- пауза между элементами одного знака — одна точка;
+	- пауза между знаками в слове — три точки;
+	- пауза между словами — семь точек.
+
+*/
   
   document.getElementById('translateButton').addEventListener('click', () => { //событие  - при нажатии на стрелку генерируется звук 
-	let mes = document.getElementById('textInputId').value;
-	let vp=0;
-	let tt='.';
-	let mmes=mes.split(' ');
-	mes = mes.replaceAll(' ','');
+	let textOfDotsAndDashes = textOutputId.value; 
+	let curTime = 0;
+	let curCharOut = '';
 	let freqValue = frequencyRange.value;
-	for(k in  mmes){
-	for(i in mmes[k]){ //sos z
-	//console.log(mes[i]);               //mes[i]???
-	//console.log(dict[mmes[k][i]]);  
-	// s       o         s
-		for (j in dict[mmes[k][i]]){ //проход по каждому тире или точке
-		//console.log(vp);
-		
+	var durCoef = durationCoefficient.value;
 
-			tt=dict[mmes[k][i]][j];
-		playSound(freqValue,vp,tt);
-			if (dict[mmes[k][i]][j]==to){
-				vp+=200;		//дается запас на паузу
+	for(let i in dataDAD){
+		for(let j in dataDAD[i]){
+			for(let k in dataDAD[i][j]){
+				curCharOut=dataDAD[i][j][k];
+				playSound(freqValue,durCoef,curTime,curCharOut);
+				if (curCharOut==to){
+					curTime+=durCoef*2;		//точка + дается запас на паузу - 1 точка 
+				}
+				else{
+					curTime+=durCoef*4;     //тире + дается запас на паузу - 1 точка 
+				}
 			}
-			else{
-				vp+=400;
-			}
-			console.log(tt);
-		}
-		vp+=200;
-		//между буквами
+			//между буквами
+			curTime+=durCoef*2;
+		}	
+		//между словами
+		curTime+=durCoef*7;
 	}
-	
-	vp+=400;
-	//между словами
-	}
-  //  playSound(note,0);					
- //   playSound(note,200);
-    //playSound(note,400);
-    //setTimeout(900);
-	//console.log(context.currentTime);
   });
 
   let context = new (window.AudioContext || window.webkitAudioContext)();
-  function playSound(note,vp,tt) {
+  function playSound(freqValue,durCoef,curTime,dotOrDash) {
 	let sound = new Sound(context);
-	let value = note;
 	var now = context.currentTime;
-	console.log(now);
-	sound.play(value,vp);
-	sound.stop(vp,tt);
+	sound.play(freqValue,curTime);
+	sound.stop(durCoef,curTime,dotOrDash);
   }
 
   
